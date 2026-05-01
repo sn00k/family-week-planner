@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Familjekalendern
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A private family calendar PWA built with React, Firebase, and TanStack Router. Supports push notifications, offline use, and installation on iOS and Android.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend**: React 19, TypeScript, Tailwind CSS v4, TanStack Router
+- **Backend**: Firebase (Auth, Firestore, Cloud Functions v2, Hosting, FCM)
+- **PWA**: vite-plugin-pwa with unified service worker (Workbox + Firebase Messaging)
+- **Build**: Vite, pnpm
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Week-view calendar with color-coded events per family member
+- Event creation and editing (type, date, time, location, notes)
+- Family management with invite codes
+- Push notifications via Firebase Cloud Messaging (iOS PWA + Android)
+- Installable as a PWA on iOS (Safari) and Android (Chrome)
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Install dependencies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+cd functions && pnpm install && cd ..
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Configure environment
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Copy `.env.example` to `.env.local` and fill in your Firebase project values:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.example .env.local
 ```
+
+You can find these values in the Firebase Console under **Project settings → General → Your apps**.
+
+The VAPID key is under **Project settings → Cloud Messaging → Web Push certificates**.
+
+### 3. Run locally
+
+```bash
+pnpm dev
+```
+
+## Deployment
+
+```bash
+pnpm build
+firebase deploy
+```
+
+This deploys both hosting and Cloud Functions.
+
+## Environment variables
+
+| Variable | Description |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | Firebase web API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Firebase auth domain |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Firebase storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | FCM sender ID |
+| `VITE_FIREBASE_APP_ID` | Firebase app ID |
+| `VITE_FIREBASE_VAPID_KEY` | VAPID key for web push |
+
+## Notes
+
+- The service worker (`src/sw.ts`) contains the Firebase config inline — this is intentional and safe. Service workers don't have access to `import.meta.env`, and Firebase web config values are public identifiers (security is enforced by Firestore rules and Firebase App Check).
+- Push notifications on iOS require the app to be installed as a PWA and iOS 16.4+.
