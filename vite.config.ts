@@ -15,10 +15,14 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
+      injectRegister: 'auto',
       includeAssets: ['favicon.svg'],
       manifest: {
         name: 'Familjekalendern',
-        short_name: 'Kalender',
+        short_name: 'Familjekalendern',
         description: 'Privat familjekalender',
         theme_color: '#4f46e5',
         background_color: '#ffffff',

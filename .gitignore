@@ -16,6 +16,9 @@ dist-ssr
 .env
 .env.local
 
+# Firebase
+.firebase/
+
 # Tool state
 .omc/
 .tanstack/

@@ -11,10 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppRouteImport } from './routes/_app'
-import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AppOnboardingRouteImport } from './routes/_app/onboarding'
+import { Route as AppCalendarRouteImport } from './routes/_app/_calendar'
+import { Route as AppCalendarIndexRouteImport } from './routes/_app/_calendar/index'
+import { Route as AppCalendarSettingsRouteImport } from './routes/_app/_calendar/settings'
+import { Route as AppCalendarMembersRouteImport } from './routes/_app/_calendar/members'
+import { Route as AppCalendarEventsNewRouteImport } from './routes/_app/_calendar/events/new'
+import { Route as AppCalendarEventsEventIdRouteImport } from './routes/_app/_calendar/events/$eventId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -23,11 +28,6 @@ const AuthRoute = AuthRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppIndexRoute = AppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRoute,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/register',
@@ -44,41 +44,105 @@ const AppOnboardingRoute = AppOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCalendarRoute = AppCalendarRouteImport.update({
+  id: '/_calendar',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarIndexRoute = AppCalendarIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppCalendarRoute,
+} as any)
+const AppCalendarSettingsRoute = AppCalendarSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppCalendarRoute,
+} as any)
+const AppCalendarMembersRoute = AppCalendarMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => AppCalendarRoute,
+} as any)
+const AppCalendarEventsNewRoute = AppCalendarEventsNewRouteImport.update({
+  id: '/events/new',
+  path: '/events/new',
+  getParentRoute: () => AppCalendarRoute,
+} as any)
+const AppCalendarEventsEventIdRoute =
+  AppCalendarEventsEventIdRouteImport.update({
+    id: '/events/$eventId',
+    path: '/events/$eventId',
+    getParentRoute: () => AppCalendarRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AppIndexRoute
+  '/': typeof AppCalendarIndexRoute
   '/onboarding': typeof AppOnboardingRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/members': typeof AppCalendarMembersRoute
+  '/settings': typeof AppCalendarSettingsRoute
+  '/events/$eventId': typeof AppCalendarEventsEventIdRoute
+  '/events/new': typeof AppCalendarEventsNewRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AppIndexRoute
+  '/': typeof AppCalendarIndexRoute
   '/onboarding': typeof AppOnboardingRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/members': typeof AppCalendarMembersRoute
+  '/settings': typeof AppCalendarSettingsRoute
+  '/events/$eventId': typeof AppCalendarEventsEventIdRoute
+  '/events/new': typeof AppCalendarEventsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
+  '/_app/_calendar': typeof AppCalendarRouteWithChildren
   '/_app/onboarding': typeof AppOnboardingRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
-  '/_app/': typeof AppIndexRoute
+  '/_app/_calendar/members': typeof AppCalendarMembersRoute
+  '/_app/_calendar/settings': typeof AppCalendarSettingsRoute
+  '/_app/_calendar/': typeof AppCalendarIndexRoute
+  '/_app/_calendar/events/$eventId': typeof AppCalendarEventsEventIdRoute
+  '/_app/_calendar/events/new': typeof AppCalendarEventsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/onboarding' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/onboarding'
+    | '/login'
+    | '/register'
+    | '/members'
+    | '/settings'
+    | '/events/$eventId'
+    | '/events/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/onboarding' | '/login' | '/register'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/login'
+    | '/register'
+    | '/members'
+    | '/settings'
+    | '/events/$eventId'
+    | '/events/new'
   id:
     | '__root__'
     | '/_app'
     | '/_auth'
+    | '/_app/_calendar'
     | '/_app/onboarding'
     | '/_auth/login'
     | '/_auth/register'
-    | '/_app/'
+    | '/_app/_calendar/members'
+    | '/_app/_calendar/settings'
+    | '/_app/_calendar/'
+    | '/_app/_calendar/events/$eventId'
+    | '/_app/_calendar/events/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -102,13 +166,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/': {
-      id: '/_app/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_auth/register': {
       id: '/_auth/register'
       path: '/register'
@@ -130,17 +187,79 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOnboardingRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_calendar': {
+      id: '/_app/_calendar'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/_calendar/': {
+      id: '/_app/_calendar/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AppCalendarIndexRouteImport
+      parentRoute: typeof AppCalendarRoute
+    }
+    '/_app/_calendar/settings': {
+      id: '/_app/_calendar/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppCalendarSettingsRouteImport
+      parentRoute: typeof AppCalendarRoute
+    }
+    '/_app/_calendar/members': {
+      id: '/_app/_calendar/members'
+      path: '/members'
+      fullPath: '/members'
+      preLoaderRoute: typeof AppCalendarMembersRouteImport
+      parentRoute: typeof AppCalendarRoute
+    }
+    '/_app/_calendar/events/new': {
+      id: '/_app/_calendar/events/new'
+      path: '/events/new'
+      fullPath: '/events/new'
+      preLoaderRoute: typeof AppCalendarEventsNewRouteImport
+      parentRoute: typeof AppCalendarRoute
+    }
+    '/_app/_calendar/events/$eventId': {
+      id: '/_app/_calendar/events/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof AppCalendarEventsEventIdRouteImport
+      parentRoute: typeof AppCalendarRoute
+    }
   }
 }
 
+interface AppCalendarRouteChildren {
+  AppCalendarMembersRoute: typeof AppCalendarMembersRoute
+  AppCalendarSettingsRoute: typeof AppCalendarSettingsRoute
+  AppCalendarIndexRoute: typeof AppCalendarIndexRoute
+  AppCalendarEventsEventIdRoute: typeof AppCalendarEventsEventIdRoute
+  AppCalendarEventsNewRoute: typeof AppCalendarEventsNewRoute
+}
+
+const AppCalendarRouteChildren: AppCalendarRouteChildren = {
+  AppCalendarMembersRoute: AppCalendarMembersRoute,
+  AppCalendarSettingsRoute: AppCalendarSettingsRoute,
+  AppCalendarIndexRoute: AppCalendarIndexRoute,
+  AppCalendarEventsEventIdRoute: AppCalendarEventsEventIdRoute,
+  AppCalendarEventsNewRoute: AppCalendarEventsNewRoute,
+}
+
+const AppCalendarRouteWithChildren = AppCalendarRoute._addFileChildren(
+  AppCalendarRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppCalendarRoute: typeof AppCalendarRouteWithChildren
   AppOnboardingRoute: typeof AppOnboardingRoute
-  AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppCalendarRoute: AppCalendarRouteWithChildren,
   AppOnboardingRoute: AppOnboardingRoute,
-  AppIndexRoute: AppIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

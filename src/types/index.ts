@@ -19,7 +19,8 @@ export interface UserProfile {
   displayName: string
   email: string
   color: string
-  familyId: string
+  familyId?: string
+  fcmToken?: string
   createdAt: string
 }
 

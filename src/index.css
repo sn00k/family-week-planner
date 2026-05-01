@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+button, [role="button"], a {
+  cursor: pointer;
+}
+
+@keyframes sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-sheet-in {
+  animation: sheet-in 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}

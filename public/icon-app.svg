@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#4f46e5"/>
+
+  <!-- Calendar card -->
+  <rect x="72" y="112" width="368" height="324" rx="40" fill="white"/>
+
+  <!-- Header bar -->
+  <rect x="72" y="112" width="368" height="108" rx="40" fill="#6366f1"/>
+  <rect x="72" y="180" width="368" height="40" fill="#6366f1"/>
+
+  <!-- Ring pegs -->
+  <rect x="160" y="80" width="28" height="76" rx="14" fill="white"/>
+  <rect x="324" y="80" width="28" height="76" rx="14" fill="white"/>
+
+  <!-- Day grid: 4 cols x 3 rows -->
+  <!-- Row 1 -->
+  <rect x="100" y="248" width="68" height="48" rx="12" fill="#c7d2fe"/>
+  <rect x="184" y="248" width="68" height="48" rx="12" fill="#4f46e5"/>
+  <rect x="268" y="248" width="68" height="48" rx="12" fill="#4f46e5"/>
+  <rect x="352" y="248" width="68" height="48" rx="12" fill="#c7d2fe"/>
+  <!-- Row 2 -->
+  <rect x="100" y="308" width="68" height="48" rx="12" fill="#c7d2fe"/>
+  <rect x="184" y="308" width="68" height="48" rx="12" fill="#bbf7d0"/>
+  <rect x="268" y="308" width="68" height="48" rx="12" fill="#c7d2fe"/>
+  <rect x="352" y="308" width="68" height="48" rx="12" fill="#fde68a"/>
+  <!-- Row 3 -->
+  <rect x="100" y="368" width="68" height="48" rx="12" fill="#c7d2fe"/>
+  <rect x="184" y="368" width="68" height="48" rx="12" fill="#c7d2fe"/>
+  <rect x="268" y="368" width="68" height="48" rx="12" fill="#818cf8"/>
+  <rect x="352" y="368" width="68" height="48" rx="12" fill="#c7d2fe"/>
+</svg>
